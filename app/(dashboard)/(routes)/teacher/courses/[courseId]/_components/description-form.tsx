@@ -37,7 +37,7 @@ export const DescriptionForm = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      description: initialData?.description || "",
+      description: initialData?.description || " ",
     },
   });
 
@@ -46,7 +46,7 @@ export const DescriptionForm = ({
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(`/api/courses/${courseId}`, values);
-      toast.success("Course title updated");
+      toast.success("Course description updated");
       toggleEdit();
       router.refresh();
     } catch {
@@ -79,7 +79,7 @@ export const DescriptionForm = ({
             !initialData.description && "text-slate-500 italic"
           )}
         >
-          {initialData.description || "No description"}
+          {initialData?.description || "No description"}
         </p>
       )}
       {isEditing && (
