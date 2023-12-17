@@ -2,8 +2,6 @@
 
 import * as z from "zod";
 import axios from "axios";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
 import { ImageIcon, Pencil, PlusCircle } from "lucide-react";
@@ -25,14 +23,6 @@ const formSchema = z.object({
   }),
 });
 export const ImageForm = ({ initialData, courseId }: ImageFormProps) => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      imageUrl: initialData?.imageUrl || " ",
-    },
-  });
-
-  const { isSubmitting, isValid } = form.formState;
   const router = useRouter();
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
