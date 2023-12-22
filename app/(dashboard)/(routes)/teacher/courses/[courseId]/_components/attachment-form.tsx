@@ -4,7 +4,7 @@ import * as z from "zod";
 import axios from "axios";
 
 import { Button } from "@/components/ui/button";
-import { File, PlusCircle } from "lucide-react";
+import { File, Loader2, PlusCircle, X } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -36,7 +36,21 @@ export const AttachmentForm = ({
   };
 
   const [isEditing, setIsEditing] = useState(false);
+  const [deletingId, setIsDeletingId] = useState<string | null>(null);
   const toggleEdit = () => setIsEditing((current) => !current);
+
+  const onDelete = async (id: string) => {
+    try {
+      setIsDeletingId(id);
+      await axios.delete(`/api/courses/${courseId}/attachments/${id}`);
+      toast.success("Succefully deleted");
+      router.refresh();
+    } catch {
+      toast.error("Something went wrong");
+    } finally {
+      setIsDeletingId(null);
+    }
+  };
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
@@ -67,6 +81,19 @@ export const AttachmentForm = ({
                 >
                   <File className="h-4 w-4 mr-2 flex-shrink-0" />
                   <p className="text-xs line-clamp-1">{attachment.name}</p>
+                  {deletingId === attachment.id && (
+                    <div>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    </div>
+                  )}
+                  {deletingId !== attachment.id && (
+                    <button
+                      onClick={() => onDelete(attachment.id)}
+                      className="ml-auto hover:opacity-75 transition"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  )}
                 </div>
               ))}
             </div>
