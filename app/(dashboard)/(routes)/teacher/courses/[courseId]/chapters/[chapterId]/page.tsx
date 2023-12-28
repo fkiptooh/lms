@@ -1,11 +1,13 @@
 import { IconBadge } from "@/components/icon-badge";
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs";
-import { ArrowLeft, LayoutDashboard } from "lucide-react";
+import { ArrowLeft, Eye, LayoutDashboard, Video } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ChapterTitleForm } from "./_components/chapter-title-form";
 import { ChapterDescriptionForm } from "./_components/chapter-description-form";
+import { ChapterAccessForm } from "./_components/chapter-access-form ";
+import { ChapterVideoForm } from "./_components/chapter-video-form";
 
 const ChapterIdPage = async ({
   params,
@@ -65,14 +67,36 @@ const ChapterIdPage = async ({
               <IconBadge icon={LayoutDashboard} />
               <h2 className="text-xl">Customize your chapter</h2>
             </div>
+            <ChapterTitleForm
+              initialData={chapter}
+              chapterId={params.chapterId}
+              courseId={params.courseId}
+            />
+            <ChapterDescriptionForm
+              initialData={chapter}
+              chapterId={params.chapterId}
+              courseId={params.courseId}
+            />
           </div>
-          {/* ChapterTitleForm */}
-          <ChapterTitleForm
-            initialData={chapter}
-            chapterId={params.chapterId}
-            courseId={params.courseId}
-          />
-          <ChapterDescriptionForm
+          <div>
+            <div className="flex items-center gap-x-2">
+              <IconBadge icon={Eye} />
+              <h2 className="text-xl">Access Settings</h2>
+            </div>
+            <ChapterAccessForm
+              initialData={chapter}
+              chapterId={params.chapterId}
+              courseId={params.courseId}
+            />
+          </div>
+        </div>
+        <div>
+          <div className="flex items-center gap-x-2">
+            <IconBadge icon={Video} />
+            <h2 className="text-xl">Add a video</h2>
+          </div>
+
+          <ChapterVideoForm
             initialData={chapter}
             chapterId={params.chapterId}
             courseId={params.courseId}
