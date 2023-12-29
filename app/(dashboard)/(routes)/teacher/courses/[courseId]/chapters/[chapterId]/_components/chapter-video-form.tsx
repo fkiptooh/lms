@@ -3,13 +3,14 @@
 import * as z from "zod";
 import axios from "axios";
 
+import MuxPlayer from "@mux/mux-player-react";
+
 import { Button } from "@/components/ui/button";
-import { ImageIcon, Pencil, PlusCircle, VideoIcon } from "lucide-react";
+import { Pencil, PlusCircle, VideoIcon } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Chapter, MuxData } from "@prisma/client";
-import Image from "next/image";
 import { FileUpload } from "@/components/file-upload";
 
 interface ChapterVideoFormProps {
@@ -30,7 +31,7 @@ export const ChapterVideoForm = ({
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(
-        `/api/courses/${courseId}/chapter/${chapterId}`,
+        `/api/courses/${courseId}/chapters/${chapterId}`,
         values
       );
       toast.success("Chapter video uploaded");
@@ -69,7 +70,9 @@ export const ChapterVideoForm = ({
             <VideoIcon className="h-10 w-10 text-slate-500" />
           </div>
         ) : (
-          <div className="relative aspect-video mt-2">Video uploaded!</div>
+          <div className="relative aspect-video mt-2">
+            <MuxPlayer playbackId={initialData?.muxData?.playbackId || ""} />
+          </div>
         ))}
       {isEditing && (
         <div>
