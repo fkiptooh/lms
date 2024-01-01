@@ -56,7 +56,7 @@ export async function PATCH(
         return NextResponse.json(unpublishChapter);
         
     } catch (error) {
-        console.log("[PUBLISH_CHAPTER]", error);
+        console.log("[UNPUBLISH_CHAPTER]", error);
         return new NextResponse("Internal Server Error", { status: 500 });
     }
 }
