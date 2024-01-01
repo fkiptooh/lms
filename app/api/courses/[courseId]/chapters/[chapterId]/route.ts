@@ -10,7 +10,7 @@ const { Video } = new Mux(
 
 export async function DELETE(
     req: Request,
-    { params } : { params : { courseId: string, chapterId: string } }
+    { params }: { params : { courseId: string, chapterId: string } }
 ) {
     try {
         const { userId } = auth();
@@ -78,7 +78,7 @@ export async function DELETE(
                     id: params.courseId
                 },
                 data: {
-                    isPublishable: false
+                    isPublished: false
                 }
             })
         }
@@ -96,7 +96,7 @@ export async function PATCH(
 ) {
     try {
         const { userId } = auth();
-        const {idPublished, ...values} = await req.json();
+        const {isPublished, ...values} = await req.json();
 
         if (!userId) {
             return new NextResponse("Unauthorized", { status: 401 });
