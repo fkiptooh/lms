@@ -4,7 +4,7 @@ import { columns } from "./_components/columns";
 import { DataTable } from "./_components/datatable";
 import { auth } from "@clerk/nextjs";
 import { db } from "@/lib/db";
-import { redirect } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 
 const CoursesPaga = async () => {
   const { userId } = auth();
