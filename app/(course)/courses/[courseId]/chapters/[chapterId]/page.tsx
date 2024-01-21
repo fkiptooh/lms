@@ -1,27 +1,5 @@
-import { db } from "@/lib/db";
-import { redirect } from "next/navigation";
-
-const ChapterIdPage = async ({ params }: { params: { courseId: string } }) => {
-  const course = await db.course.findUnique({
-    where: {
-      id: params.courseId,
-    },
-    include: {
-      chapters: {
-        where: {
-          isPublished: true,
-        },
-        orderBy: {
-          position: "asc",
-        },
-      },
-    },
-  });
-
-  if (!course) {
-    return redirect("/");
-  }
-  return redirect(`/course/${course.id}/chapters/${course.chapters[0].id}`);
+const ChapterIdPage = () => {
+  return <div>Chapter Id</div>;
 };
 
 export default ChapterIdPage;
