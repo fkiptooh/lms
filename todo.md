@@ -4,3 +4,4 @@
 4. Assessments.
 5. Feedback system.
 6. Collaboration learning.
+7. Video-player
