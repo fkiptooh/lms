@@ -1,3 +1,4 @@
+import { getChapter } from "@/actions/get-chapter";
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
@@ -8,9 +9,30 @@ const ChapterIdPage = async ({
 }) => {
   const { userId } = auth();
 
-  if (userId) {
+  if (!userId) {
     return redirect(`/`);
   }
+
+  const {
+    chapter,
+    course,
+    muxData,
+    attachments,
+    nextChapter,
+    userProgress,
+    purchase,
+  } = await getChapter({
+    userId,
+    chapterId: params.chapterId,
+    courseId: params.courseId,
+  });
+
+  if (!chapter || !course) {
+    return redirect("/");
+  }
+
+  const isLocked = !chapter.isFree && !purchase;
+  const completeOnEnd = !!purchase && !userProgress?.isCompleted;
   return <div>Chapter Id</div>;
 };
 
